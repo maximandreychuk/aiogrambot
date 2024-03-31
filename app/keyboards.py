@@ -6,16 +6,16 @@ from aiogram.types import (ReplyKeyboardMarkup,
 )
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 
+
+way = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Авто', callback_data='auto')],
+    [InlineKeyboardButton(text='Пешком', callback_data='fuss')],
+])
 time = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='12')],
     [KeyboardButton(text='14')],
     [KeyboardButton(text='16')]
 ])
-way = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Авто', callback_data='auto')],
-    [InlineKeyboardButton(text='Пешком', callback_data='fuss')],
-])
-
 main = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Автор', callback_data='author')],
     [InlineKeyboardButton(text='Контакты', callback_data='contacts'),
@@ -42,6 +42,9 @@ async def make_time_keyboard(lst=['12','14','16']):
 """Разработка бота."""
 
 rmk = ReplyKeyboardRemove() #для удаления реплай клавы
+
+go_to_reg = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Погнали')]],resize_keyboard=True)
+is_good = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Хорошо')]],resize_keyboard=True)
 
 async def make_time_keyboard(lst=['12','14','16']):
     kb=[KeyboardButton(text=item) for item in lst]

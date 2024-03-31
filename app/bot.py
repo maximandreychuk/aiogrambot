@@ -3,15 +3,27 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
-import .keyboards as kb
+from app import keyboards as kb
 
 router = Router()
 
 class RegToWork(StatesGroup, State):
+    ready = State()
     time = State()
     way = State()
 
-@router.message(Command('gol'))
+@router.message(Command('start'))
+async def check_time(message: Message,
+                     curr_hour: int,
+                     state: FSMContext):
+    msg_if_true = f'Сейчас {curr_hour} часов, ты можешь записываться'
+    msg_if_false = f'Сейчас {curr_hour} часов, подожди 18 часов'
+    if curr_hour >= 10 and curr_hour <= 23:  # время для теста
+        await message.answer(msg_if_true, reply_markup = kb.go_to_reg)
+        await state.set_state(RegToWork.ready)
+    else: await message.answer(msg_if_false, reply_markup = kb.is_good)
+
+@router.message(RegToWork.ready)
 async def sap_step_one(message: Message, state: FSMContext):
     await message.answer(text="К какому времени?", reply_markup = await kb.make_time_keyboard())
     await state.set_state(RegToWork.time)

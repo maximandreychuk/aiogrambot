@@ -8,8 +8,8 @@ from aiogram.fsm.context import FSMContext
 import app.keyboards as kb
 from app.filters import IsAdmin
 
-router = Router()
-
+# router = Router()
+from app.bot import router
 class Reg(StatesGroup):
     name = State()
     numb = State()
@@ -64,16 +64,6 @@ async def get_help(message: Message):
 async def author(callback: CallbackQuery):
     await callback.answer('Вы выбрали Автор', show_alert=True)
     await callback.message.edit_text('Выбирай', reply_markup=await kb.inline_name())
-
-@router.message(F.text=='Я админ?')
-async def ho_is_admin(message: Message):
-    await message.answer(text='Узнать', 
-                         reply_markup=ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Тык')]], resize_keyboard=True)
-    )
-@router.message(F.text=='Тык', IsAdmin())
-async def 
-
-
 
 
 """Разработка бота."""

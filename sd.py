@@ -8,3 +8,9 @@ name_tg_dict = {'Максим':"tg://user?id=549065222",
 }
 for i in name_tg_dict:
   print(name_tg_dict[i])
+
+
+from datetime import datetime
+
+print(datetime.today().hour)
+print()
