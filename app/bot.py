@@ -4,6 +4,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from app import keyboards as kb
+import asyncpg
 
 router = Router()
 
@@ -22,6 +23,15 @@ async def check_time(message: Message,
         await message.answer(msg_if_true, reply_markup = kb.go_to_reg)
         await state.set_state(RegToWork.ready)
     else: await message.answer(msg_if_false, reply_markup = kb.is_good)
+
+@router.message(Command('db'))
+async def create_db(message: Message, db: asyncpg.pool.Pool):
+    await db.execute("CREATE TABLE IF NOT EXISTS couriers("
+                "id INTEGER PRIMARY KEY, "
+                "data TEXT"
+                "work_time TEXT, "
+                "method TEXT)")
+    await message.answer('Привет! Таблица couriers создана.')
 
 @router.message(RegToWork.ready)
 async def sap_step_one(message: Message, state: FSMContext):
